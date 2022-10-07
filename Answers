@@ -1,0 +1,26 @@
+Q1:
+I am Kamil. I live in Vienna with my family. Have an educational background in computer engineering. Have been in the market for more than ten years. Started my career as software developer, then moved to do more data related tasks. I have experience to deliver e2e data pipelines which starts with data gathering, cleansing and storage. Then applying all kind of analytics to the data. It can be descriptive or predictive analytics. And finally broadcast these analytics results 
+using different tools, like BI tools, reporting tools or visual dashboards.
+
+Q2:
+SQL database -> Kafka connector -> Snowflake -> BI Tool (Power BI, Tableau or Qlik)
+The data coming from application is being stored to SQL database. We use Kafka connect source connector to stream data from SQL database. We can use Debezium (www.debezium.io) for CDC-based (Change Data Capture) extract and load operations. Then data coming from Kafka will be stored to Snowflake for further consolidation. We can use dbt and airflow for data transformations. And finally, we can connect any state-of-art BI tool to snowflake to visualize data. For example, Power BI, Tableau and Qlik have out-of-box snowflake connectors. 
+
+Q3.
+The basic idea is to deploy the function as a Restful API. We can use python to create the function and use Flask or Tornado or any other library to deploy it as a Restful API. We can then inject this API into any data process. How function will work is another topic. For example, to scan the content of the comment different approaches can be applied, like entity extractor or fuzzy matching.
+
+Q4, Q5:
+Read data to pandas dataframe:
+df = pd.read_csv('dataset.tsv', sep='\t', header=0)
+Calculate rate column:
+df['rate'] = df['registrations']/df['views']
+Split the column into three separate one:
+df = pd.DataFrame(df['popup_version|start_date|popup_category'].to_list(), columns=['popup_version','start_date','popup_category'])
+Create correlation matrix:
+df.corr(method=histogram_intersection)
+
+Reading and doing a simple analysis of the data with lack of business information I may say that the factor is not obvious (at least from the tsv raw data).
+I would analyze the text and picture shared in pop-up. Analysis of the text means analysis of the title and the content. The basic analysis is the word count. I would try understanding which phrases leads to registration. Category info in tsv data has a lot of missing values, that’s why I would try to do topic modelling to the content text and try to label (categorize) pop-ups. During modelling I will also get the list of words that define each category which again I can crossmatch with the rate value and try to understand correlation. 
+The same can be done to the pictures shared in the pop-ups. Having no business information, I would assume pictures are either cover pictures or some example pictures from the book or maybe picture of the author. Again, labeling and categorizing pictures and then feeding this info as feature factor for the rate and trying to understand correlation may lead to some results.
+Also, matching these labels with user demographics and rate also may lead to some results.
+For extra insights some obvious descriptive analysis can be performed, like pop-up distribution per category, date etc. Also, aggregations like total number of views or registration per category or date. 
